@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react';
+
 import { Link, useNavigate } from 'react-router-dom';
 import { obtenerPacientes, obtenerHistorialPorPaciente, crearPaciente } from '../api/pacientes';
 import ModalNuevoPaciente from '../components/ModalNuevoPaciente';
 import { Menu, X, Activity, FolderOpenDot, FilePlus, Home, User, Calendar, Phone, Mail, Plus, AlertTriangle, Stethoscope, Clipboard, Pill } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+const API_URL = process.env.REACT_APP_API_URL;  // ← Aquí
+
 
 export default function Inicio() {
+  
   const [open, setOpen] = useState(false);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [nuevoPaciente, setNuevoPaciente] = useState({ nombre: '', fecha_nacimiento: '', telefono: '', correo: '' });
@@ -26,7 +30,7 @@ export default function Inicio() {
       try {
         const [dataPacientes, dataConsultas] = await Promise.all([
           obtenerPacientes(),
-          fetch("http://localhost:8000/api/consultas/").then(res => res.json())
+          fetch(`${API_URL}/api/pacientes/consultas/`).then(res => res.json())
         ]);
         
         setPacientes(dataPacientes);
